@@ -21,44 +21,43 @@ This is pretty well documented elsewhere. Continue here once you have the server
 
 Find a behavior pack (eg.g CoolAligators), download, and unzip. You have to add the behavior pack to these folders (I add everything unzipped):
 
-  \server\behavior_packs\CoolAlliga
+    \server\behavior_packs\CoolAlliga
 
 And the resource pack here:
 
-`\server\resource_packs\CoolAlliga`
+    \server\resource_packs\CoolAlliga
 
 If they are at the right spot and valid, the server will read them on start and add them to the file
 
-`\server\valid_known_packs.json`
+    \server\valid_known_packs.json
 
 It will look like
 
-'''
-`{`
-	`"file_system" : "RawPath",`
-	`"path" : "resource_packs/CoolAlliga",`
-	`"uuid" : "0ca59398-f5ce-11e8-8eb2-f2801f1b9fd1",`
-	`"version" : "1.8.0"`
-`},`
+   {
+        "file_system" : "RawPath",
+        "path" : "resource_packs/CoolAlliga",
+        "uuid" : "0ca59398-f5ce-11e8-8eb2-f2801f1b9fd1",
+        "version" : "1.8.0"
+    },
 
-`{`
-	`"file_system" : "RawPath",`
-	`"path" : "behavior_packs/CoolAlliga",`
-	`"uuid" : "b2d39a5c-f5c5-11e8-8eb2-f2801f1b9fd1",`
-	`"version" : "1.8.0"`
-`}`
+    {
+        "file_system" : "RawPath",
+        "path" : "behavior_packs/CoolAlliga",
+        "uuid" : "b2d39a5c-f5c5-11e8-8eb2-f2801f1b9fd1",
+        "version" : "1.8.0"
+    }
 
 Now you need to add the packs to your world. The files to edit are:
 
-`\server\worlds\your_world\world_behavior_packs.json`
-`\server\worlds\your_world\world_resource_packs.json`
+    \server\worlds\your_world\world_behavior_packs.json
+    \server\worlds\your_world\world_resource_packs.json
 
 The formatting is different, but you add the uuid and version like this:
 
-`{`
-	`"pack_id" : "b2d39a5c-f5c5-11e8-8eb2-f2801f1b9fd1",`
-	`"version" : [ 1, 8, 0 ]`
-`}`
+    {
+        "pack_id" : "b2d39a5c-f5c5-11e8-8eb2-f2801f1b9fd1",
+        "version" : [ 1, 8, 0 ]
+    }
 
 If successful, it will prompt a connecting client (e.g. iPhone) to download the resource pack. That tells you it's all working fine.
 
@@ -67,16 +66,16 @@ behavior and resource packs to to the above folders. The `world_<>_packs.json` f
 You will need to change the level-name in the servers.properties file to point to the right world folder.
 You can only have one world/level running at the same time in Bedrock.
 
-`#level-name=Bedrock level`
-`level-name=alien-invasion`
+    #level-name=Bedrock level
+    level-name=alien-invasion
 
 ## Updating add-ons
 
 If you are actively developing a resource pack (i.e. changing it) you need to increment the version number
 in two locations, the pack itself, and the world.
 
-`\server\resource_packs\CoolAlliga\manifest.json`
-`\server\worlds\your_world\world_resource_packs.json`
+    \server\resource_packs\CoolAlliga\manifest.json
+    \server\worlds\your_world\world_resource_packs.json
 
 Then restart the server, and it will pick the changes up (and prompt clients to download). 
 
@@ -84,19 +83,19 @@ Then restart the server, and it will pick the changes up (and prompt clients to 
 To run scripts, you need to put your world into experimental mode. There are several ways to do this.
 
 ## Use Minecraft for Windows 10
-You create the world in the full game and export it. Then import it to server. This is documented elsewhere
+You create the world in the full game and export it. Then import it to server. This is documented elsewhere, and I haven't tried it as I don't have Minecraft for Windows 10.
 
-## Patch `levels.dat`
+## Patch levels.dat
 You patch a (binary) data file. This worked for me, but is taking dedication. You need a good editor, like Notepad++ so the file doesn't get corrupted. First find the file
 
-`server_folder/world/world_name/level.dat`
+    server_folder/world/world_name/level.dat
 
 If you use Notepad++ it will say something like
 
-`experimentalgameplay[NUL][SOH]`
+    experimentalgameplay[NUL][SOH]
 
 [NUL] and [SOH] are each just one special control character. Copy the [SOH] character and replace the [NUL]. Make it look like
 
-`experimentalgameplay[SOH][SOH]`
+    experimentalgameplay[SOH][SOH]
 
-This did the trick for me.
+This did the trick for me. (Everytime you patch files like this, make a backup copy first...)
