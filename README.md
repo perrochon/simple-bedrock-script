@@ -1,8 +1,10 @@
-# Simple Bedrock Script
+# Simple Bedrock Dedicated Server Script
 
-Simple Script for Bedrock Server and - more importantly - steps to make it work. Good luck.
+Simple Script for Bedrock Server and - more importantly - steps to make it work. The script should work on any Bedrock, but the tricky bit is making things work on the dedicated server.
 
-Goal: Run Minecraft Bedrock Dedicated Server on Windows with server side scripts!
+**Goal:** Run Minecraft Bedrock Dedicated Server on Windows with a server side script!
+
+Once you have this script running, you can then continue with more exciting scripts.
 
 ### Beware
 * Currently, client scripts only work on Windows 10 (not on iOS, Android, etc.). You can run server scripts in the server and connect from iOS/Android, but what you can do is somewhat limited.
@@ -16,6 +18,17 @@ Goal: Run Minecraft Bedrock Dedicated Server on Windows with server side scripts
 
 # 1. Install Bedrock Server
 This is pretty well documented elsewhere. Continue here once you have the server running and can connect to it from a mobile device.
+
+Things to look out for in the `server.properties` file
+
+    # Make it easy to debug stuff
+    allow-cheats=true
+    gamemode=creative
+    online-mode=false
+    
+    # We will need this for add-ons
+    texturepack-required=true
+
 
 # 2. Introducing add-ons to Bedrock Server
 
@@ -59,7 +72,7 @@ The formatting is different, but you add the uuid and version like this:
         "version" : [ 1, 8, 0 ]
     }
 
-If successful, it will prompt a connecting client (e.g. iPhone) to download the resource pack. That tells you it's all working fine.
+If successful, it will prompt a connecting client (e.g. iPhone) to download the resource pack. (You did require that in `server.properties`, yes?That tells you it's all working fine.
 
 If you downloaded a world pack (e.g. alien-invasion) unzip into the `worlds` subfolder, then move the 
 behavior and resource packs to to the above folders. The `world_<>_packs.json` files will be already there.
@@ -80,13 +93,31 @@ in two locations, the pack itself, and the world.
 Then restart the server, and it will pick the changes up (and prompt clients to download). 
 
 # 3. Scripts
-To run scripts, you need to put your world into experimental mode. There are several ways to do this.
+
+First you get the Vanilla Behavior pack and add it (see above). It doesn't have any scripts in the folder, so you have to create one.
+
+    system = server.registerSystem(0, 0);
+    
+    system.initialize = function() {        
+        // Mobs die all the time, so let's react to Mob death...
+        this.listenForEvent("minecraft:entity_death", (eventData) => this.onEntityDeath(eventData));	
+    };
+
+    system.onEntityDeath = function (eventData) {
+        let BroadcastEventData = this.createEventData("minecraft:display_chat_event");
+        BroadcastEventData.data.message = "Rest in Peace";
+        this.broadcastEvent("minecraft:display_chat_event", BroadcastEventData);
+    };
+
+I don't know where any error messages go (if they go anywhere), so if there is anything wrong with your code, even a single missing `;`, it will silently fail. I started validating all code in a separate JavaScript validator (google will find you one).
+
+To actually run scripts, you need to put your world into experimental mode. There are at least two ways to do this.
 
 ## Use Minecraft for Windows 10
-You create the world in the full game and export it. Then import it to server. This is documented elsewhere, and I haven't tried it as I don't have Minecraft for Windows 10.
+You create the world in the full game and export it. Then import it to the server. This is documented elsewhere, and I haven't tried it as I don't have Minecraft for Windows 10.
 
 ## Patch levels.dat
-You patch a (binary) data file. This worked for me, but is taking dedication. You need a good editor, like Notepad++ so the file doesn't get corrupted. First find the file
+You patch a (binary) data file. You need a good editor, like Notepad++ so the file doesn't get corrupted. First find the file
 
     server_folder/world/world_name/level.dat
 
@@ -98,4 +129,10 @@ If you use Notepad++ it will say something like
 
     experimentalgameplay[SOH][SOH]
 
-This did the trick for me. (Everytime you patch files like this, make a backup copy first...)
+This did the trick for me. Everytime you patch files like this, make a backup copy first... This is really not a good was of doing things, but right now it seems the only way.
+
+
+## Future Features
+* Client side scripts on clients other than Windows 10, foremost Android and iOS
+* Content error logging (this is supposed to work, but I don't know where the content file would be)
+* Better reporting of any issues
