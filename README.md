@@ -94,7 +94,11 @@ Then restart the server, and it will pick the changes up (and prompt clients to 
 
 # 3. Scripts
 
-First you get the Vanilla Behavior pack and add it (see above). It doesn't have any scripts in the folder, so you have to create one. The code below is in the file [`simpleServerScript.js`](simpleServerScript.js).
+First you get the Vanilla Behavior pack and add it (see above). You can get the pack and some more information from here
+
+https://minecraft.gamepedia.com/Bedrock_Edition_beta_scripting_documentation
+
+It doesn't have any scripts in the folder, so you have to create one. The code below is in the file [`simpleServerScript.js`](simpleServerScript.js).
 
     system = server.registerSystem(0, 0);
     
