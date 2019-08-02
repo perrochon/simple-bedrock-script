@@ -110,20 +110,23 @@ First you get the Vanilla Behavior pack and add it (see above). You can get the 
 
 https://minecraft.gamepedia.com/Bedrock_Edition_beta_scripting_documentation
 
-It doesn't have any scripts in the folder, so you have to create one. The code below is in the file [`simpleServerScript.js`](simpleServerScript.js).
+It doesn't have any scripts in the folder, so you have to create one. The code below is in the file [`countingTicks.js`](countingTicks.js).
 
     system = server.registerSystem(0, 0);
-    
-    system.initialize = function() {        
-        // Mobs die all the time, so let's react to Mob death...
-        this.listenForEvent("minecraft:entity_death", (eventData) => this.onEntityDeath(eventData));	
-    };
 
-    system.onEntityDeath = function (eventData) {
-        let BroadcastEventData = this.createEventData("minecraft:display_chat_event");
-        BroadcastEventData.data.message = "Rest in Peace";
-        this.broadcastEvent("minecraft:display_chat_event", BroadcastEventData);
-    };
+    var tickNumber = 0;
+
+    system.update = function () {
+        // increase the tick number
+        tickNumber++;
+
+        // if the tick number is exactly divisible by 100 (every few seconds)
+        if (tickNumber % 100 === 0) {
+            let BroadcastEventData = this.createEventData("minecraft:display_chat_event");
+            BroadcastEventData.data.message = "Tick " + tickNumber.toString();
+            this.broadcastEvent("minecraft:display_chat_event", BroadcastEventData);
+        }
+    };    
 
 I don't know where any error messages go (if they go anywhere), so if there is anything wrong with your code, even a single missing `;`, it will silently fail. I started validating all code in a separate JavaScript validator (google will find you one).
 
