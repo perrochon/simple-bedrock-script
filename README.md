@@ -2,22 +2,29 @@
 
 Simple Script for Bedrock Server and - more importantly - steps to make it work. The script should work on any Bedrock, but the tricky bit is making things work on the dedicated server.
 
-**Goal:** Run Minecraft Bedrock Dedicated Server on Windows with a server side script!
+**Goal:** Run Minecraft Bedrock Dedicated Server on Windows with a server side script. Connect from mobile device and see script in action. 
 
-Once you have this script running, you can then continue with more exciting scripts.
+Once you have this script running, you can continue with more exciting scripts.
 
 ### Beware
-* Currently, client scripts only work on Windows 10 (not on iOS, Android, etc.). You can run server scripts in the server and connect from iOS/Android, but what you can do is somewhat limited.
-* Things change frequently. So everything below may be outdated soon. This is last updated and checked for 1.12.0.28
-* Things are very fragile. There are no good tools available. One missing comma, and stuff stops working
-* Much is based on this Reddit comment from agent_4125: https://www.reddit.com/r/MCPE/comments/awjzh7/help_implementing_bedrock_server_addons/eizlaf4
+* Dedicated Bedrock Server is in alpha. This means things change frequently and changes will break working scripts. Everything here may be outdated soon. The below is last updated and checked for 1.12.0.28 (check version history of the file for details)
+* Things are very fragile. There are no good tools available. One missing comma, and stuff stops working.
+* Currently, client scripts only work on Windows 10 (not on iOS, Android, etc.). But you can run server scripts in the server and connect from iOS/Android.
 
 ### Why do you want to do this?
-* You use Minecraft Bedrock instead of Minecraft Java Server Edition because you want interoperability with mobile devices. Otherwise you Java Server Edition, it's a lot more powerful.
-* You want a dedicated server because you don't want/can't run Minecraft for Windows 10. Otherwise run Microsoft for Windows 10 which has a server and a client as is overall a lot more user friendly to run. 
+* You use Minecraft Bedrock instead of Minecraft Java Server Edition because you want interoperability with mobile devices. Otherwise you Java Server Edition, it's a lot more powerful, and probably better documented.
+* You want a dedicated server because you don't want/can't run the full Minecraft for Windows 10. Otherwise run Microsoft for Windows 10 which has a server and a client and is overall a lot more user friendly to run. Much of the official documentation is for that (e.g. the location of the content log file) 
+** The main reason to run the server only is to run it in the background, or in the cloud and keep it running all the time.
+** The other reason is because it's fun.
+
+### References
+* Much of the add-on text is based on this Reddit comment from agent_4125: https://www.reddit.com/r/MCPE/comments/awjzh7/help_implementing_bedrock_server_addons/eizlaf4
+* Offical bedrock server documentation: https://minecraft.gamepedia.com/Bedrock_Dedicated_Server
+* Official add-on documentation: https://minecraft.gamepedia.com/Add-on
+* Official script documentation: https://minecraft.gamepedia.com/Bedrock_Edition_scripting_documentation 
 
 # 1. Install Bedrock Server
-This is pretty well documented elsewhere. Continue here once you have the server running and can connect to it from a mobile device.
+installing Bedrock server is pretty well documented elsewhere. Click on the link abvoe to start. Continue here once you have the server running and can connect to it from a mobile device.
 
 Things to look out for in the `server.properties` file
 
@@ -81,6 +88,8 @@ You can only have one world/level running at the same time in Bedrock.
 
     #level-name=Bedrock level
     level-name=alien-invasion
+    
+Now you know that add-ons are basically working. The server finds them, loads them, and sends anything necessary to the client. Scripts is pretty much just more of the same.
 
 ## Updating add-ons
 
@@ -115,13 +124,15 @@ It doesn't have any scripts in the folder, so you have to create one. The code b
 
 I don't know where any error messages go (if they go anywhere), so if there is anything wrong with your code, even a single missing `;`, it will silently fail. I started validating all code in a separate JavaScript validator (google will find you one).
 
-To actually run scripts, you need to put your world into experimental mode. There are at least two ways to do this.
+Note: To actually run scripts, *you need to put your world into experimental mode.* There are at least two ways to do this.
 
 ## Use Minecraft for Windows 10
-You create the world in the full game and export it. Then import it to the server. This is documented elsewhere, and I haven't tried it as I don't have Minecraft for Windows 10.
+You create the world in the full game and export it. Then import it to the server. This is documented elsewhere, and I haven't tried it as I don't have Minecraft for Windows 10. It may work with Minecraft on iPad, but moving random files from iPad to Windows is tricky, too.
 
 ## Patch levels.dat
-You patch a (binary) data file. You need a good editor, like Notepad++ so the file doesn't get corrupted. First find the file
+You patch a (binary) data file. You need a good editor, like Notepad++ so the file doesn't get corrupted. Everytime you patch files like this, make a backup copy first...
+
+First find the file
 
     server_folder/world/world_name/level.dat
 
@@ -133,10 +144,10 @@ If you use Notepad++ it will say something like
 
     experimentalgameplay[SOH][SOH]
 
-This did the trick for me. Everytime you patch files like this, make a backup copy first... This is really not a good was of doing things, but right now it seems the only way.
-
+This did the trick for me. Quick, easy, ugly. Patching binary code is really not a good way of developing software, but right now it seems the best way for me.
 
 ## Future Features
-* Client side scripts on clients other than Windows 10, foremost Android and iOS
+* Experimental a setting in server.properties.
 * Content error logging (this is supposed to work, but I don't know where the content file would be)
-* Better reporting of any issues
+* Overall better reporting of any issues
+* Client side scripts on clients other than Windows 10, foremost Android and iOS
