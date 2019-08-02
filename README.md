@@ -6,6 +6,8 @@ Simple Script for Bedrock Server and - more importantly - steps to make it work.
 
 Once you have this script running, you can continue with more exciting scripts.
 
+Disclaimer: This is an unofficial tutorial. It is not endorsed by or affiliated with Minecraft/Mojang.
+
 ### Beware
 * Dedicated Bedrock Server is in alpha. This means things change frequently and changes will break working scripts. Everything here may be outdated soon. The below is last updated and checked for 1.12.0.28 (check version history of the file for details)
 * Things are very fragile. There are no good tools available. One missing comma, and stuff stops working.
@@ -20,6 +22,7 @@ Once you have this script running, you can continue with more exciting scripts.
 ### References
 * Much of the add-on text is based on this Reddit comment from agent_4125: https://www.reddit.com/r/MCPE/comments/awjzh7/help_implementing_bedrock_server_addons/eizlaf4
 * Offical bedrock server documentation: https://minecraft.gamepedia.com/Bedrock_Dedicated_Server
+* The Professor's Tutorial: https://www.reddit.com/user/ProfessorValko/comments/9f438p/bedrock_dedicated_server_tutorial/
 * Official add-on documentation: https://minecraft.gamepedia.com/Add-on
 * Official script documentation: https://minecraft.gamepedia.com/Bedrock_Edition_scripting_documentation 
 
