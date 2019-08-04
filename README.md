@@ -96,13 +96,15 @@ Now you know that add-ons are basically working. The server finds them, loads th
 
 ## Updating add-ons
 
-If you are actively developing a resource pack (i.e. changing it) you need to increment the version number
-in two locations, the pack itself, and the world.
+If you are actively developing a resource pack (i.e. changing it) you may need to increment the version number
+in two locations, the pack itself, and the world. This is e.g. true if you replace a texture file. It will have 
+to be reloaded into the world.
 
     \server\resource_packs\CoolAlliga\manifest.json
     \server\worlds\your_world\world_resource_packs.json
 
 Then restart the server, and it will pick the changes up (and prompt clients to download). 
+If you just change a script, restarting the server seems enough. The scripts are read from source on server start.
 
 # 3. Scripts
 
